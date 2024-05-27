@@ -5,7 +5,6 @@ use crate::{
     Host, Interpreter,
 };
 use core::cmp::Ordering;
-use revm_primitives::uint;
 
 pub fn lt<H: Host + ?Sized>(interpreter: &mut Interpreter, _host: &mut H) {
     gas!(interpreter, gas::VERYLOW);
@@ -116,7 +115,7 @@ pub fn sar<H: Host + ?Sized, SPEC: Spec>(interpreter: &mut Interpreter, _host: &
             Sign::Minus => U256::MAX,
         }
     } else {
-        const ONE: U256 = uint!(1_U256);
+        const ONE: U256 = U256::from_limbs([1, 0, 0, 0]);
         // SAFETY: shift count is checked above; it's less than 255.
         let shift = usize::try_from(op1).unwrap();
         match value_sign {
